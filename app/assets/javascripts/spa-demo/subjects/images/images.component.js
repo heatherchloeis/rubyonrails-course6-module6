@@ -25,11 +25,11 @@
   imageSelectorTemplateUrl.$inject = ["spa-demo.config.APP_CONFIG"];
   function imageSelectorTemplateUrl(APP_CONFIG) {
     return APP_CONFIG.image_selector_html;
-  }    
+  }
   imageEditorTemplateUrl.$inject = ["spa-demo.config.APP_CONFIG"];
   function imageEditorTemplateUrl(APP_CONFIG) {
     return APP_CONFIG.image_editor_html;
-  }    
+  }
 
   ImageSelectorController.$inject = ["$scope",
                                      "$stateParams",
@@ -124,8 +124,8 @@
     function showAll() {
       loadItems();
     }
-  }
 
+  }
 
   ImageEditorController.$inject = ["$scope","$q",
                                    "$state", "$stateParams",
@@ -136,7 +136,7 @@
                                    "spa-demo.subjects.ImageLinkableThing",
                                    "spa-demo.geoloc.geocoder",
                                    ];
-  function ImageEditorController($scope, $q, $state, $stateParams, 
+  function ImageEditorController($scope, $q, $state, $stateParams,
                                  Authz, DataUtils, Image, ImageThing,ImageLinkableThing,
                                  geocoder) {
     var vm=this;
@@ -151,8 +151,8 @@
 
     vm.$onInit = function() {
       console.log("ImageEditorController",$scope);
-      $scope.$watch(function(){ return Authz.getAuthorizedUserId(); }, 
-                    function(){ 
+      $scope.$watch(function(){ return Authz.getAuthorizedUserId(); },
+                    function(){
                       if ($stateParams.id) {
                         reload($stateParams.id);
                       } else {
@@ -192,14 +192,14 @@
     }
 
     function setImageContent(dataUri) {
-      console.log("setImageContent", dataUri ? dataUri.length : null);      
+      console.log("setImageContent", dataUri ? dataUri.length : null);
       vm.item.image_content = DataUtils.getContentFromDataUri(dataUri);
-    }    
+    }
 
     function create() {
       vm.item.$save().then(
         function(){
-           $state.go(".", {id: vm.item.id}); 
+           $state.go(".", {id: vm.item.id});
         },
         handleError);
     }
@@ -222,21 +222,21 @@
       console.log("waiting for promises", promises);
       $q.all(promises).then(
         function(response){
-          console.log("promise.all response", response); 
+          console.log("promise.all response", response);
           $scope.imageform.$setPristine();
-          reload(); 
+          reload();
         },
-        handleError);    
+        handleError);
     }
 
     function remove() {
       vm.item.errors = null;
       vm.item.$delete().then(
-        function(){ 
-          console.log("remove complete", vm.item);          
+        function(){
+          console.log("remove complete", vm.item);
           clear();
         },
-        handleError);      
+        handleError);
     }
 
     function locationByAddress(address) {
@@ -252,14 +252,14 @@
     function handleError(response) {
       console.log("error", response);
       if (response.data) {
-        vm.item["errors"]=response.data.errors;          
-      } 
+        vm.item["errors"]=response.data.errors;
+      }
       if (!vm.item.errors) {
         vm.item["errors"]={}
-        vm.item["errors"]["full_messages"]=[response]; 
-      }      
+        vm.item["errors"]["full_messages"]=[response];
+      }
       $scope.imageform.$setPristine();
-    }    
+    }
   }
 
 })();
